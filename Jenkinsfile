@@ -6,6 +6,7 @@ pipeline {
     //     AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     //     AWS_DEFAULT_REGION = "us-east-1"
     // }
+    Use profile information from ~/.aws/config:
     options{
         withAWS(profile:'ms', region:'us-west-1')
     }
