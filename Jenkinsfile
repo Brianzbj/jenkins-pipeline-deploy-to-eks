@@ -5,11 +5,10 @@ pipeline {
     //     AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
     //     AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     //     AWS_DEFAULT_REGION = "us-east-1"
-    // }
-    Use profile information from ~/.aws/config:
-    withAWS(profile:'ms', region:'us-west-1') {
-        stages {
-            stage("Create an EKS Cluster") {
+    // }     {
+    stages {
+        stage("Create an EKS Cluster") {
+            withAWS(profile:'ms', region:'us-west-1') {
                 steps {
                     script {
                         dir('terraform') {
@@ -18,8 +17,10 @@ pipeline {
                         }
                     }
                 }
-            }
-            stage("Deploy to EKS") {
+            }                    
+        }
+        stage("Deploy to EKS") {
+            withAWS(profile:'ms', region:'us-west-1') {
                 steps {
                     script {
                         dir('kubernetes') {
@@ -30,6 +31,6 @@ pipeline {
                     }
                 }
             }
-        } 
-    } 
+        }
+    }
 }
