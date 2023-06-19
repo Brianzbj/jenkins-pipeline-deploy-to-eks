@@ -7,7 +7,7 @@ pipeline {
     //     AWS_DEFAULT_REGION = "us-east-1"
     // }
     Use profile information from ~/.aws/config:
-    withAWS(profile:'ms', region:'us-west-1'){
+    withAWS(profile:'ms', region:'us-west-1') {
         stages {
             stage("Create an EKS Cluster") {
                 steps {
