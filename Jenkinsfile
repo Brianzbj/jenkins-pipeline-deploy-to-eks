@@ -6,31 +6,30 @@ pipeline {
     //     AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     //     AWS_DEFAULT_REGION = "us-east-1"
     // }
-    Use profile information from /.aws/config:
-    options{
-        withAWS(profile:'ms', region:'us-west-1')
-    }
-    stages {
-        stage("Create an EKS Cluster") {
-            steps {
-                script {
-                    dir('terraform') {
-                        sh "terraform init"
-                        sh "terraform apply -auto-approve"
+    Use profile information from ~/.aws/config:
+    withAWS(profile:'ms', region:'us-west-1'){
+        stages {
+            stage("Create an EKS Cluster") {
+                steps {
+                    script {
+                        dir('terraform') {
+                            sh "terraform init"
+                            sh "terraform apply -auto-approve"
+                        }
                     }
                 }
             }
-        }
-        stage("Deploy to EKS") {
-            steps {
-                script {
-                    dir('kubernetes') {
-                        sh "aws eks update-kubeconfig --name brian-eks-cluster"
-                        sh "kubectl apply -f nginx-deployment.yaml"
-                        sh "kubectl apply -f nginx-service.yaml"
+            stage("Deploy to EKS") {
+                steps {
+                    script {
+                        dir('kubernetes') {
+                            sh "aws eks update-kubeconfig --name brian-eks-cluster"
+                            sh "kubectl apply -f nginx-deployment.yaml"
+                            sh "kubectl apply -f nginx-service.yaml"
+                        }
                     }
                 }
             }
-        }
-    }  
+        } 
+    } 
 }
