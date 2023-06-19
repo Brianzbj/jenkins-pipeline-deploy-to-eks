@@ -6,8 +6,8 @@ pipeline {
     //     AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     //     AWS_DEFAULT_REGION = "us-east-1"
     // }
-
-    withAWS(profile:'ms', region:'us-west-1'){
+    options{
+    withAWS(profile:'ms', region:'us-west-1')
         stages {
             stage("Create an EKS Cluster") {
                 steps {
